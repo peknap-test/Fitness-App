@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Lab 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Space Mono', monospace;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e6ed;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #00f5a0 0%, #00d9f5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        .nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .nav button {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #8892b0;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-family: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .nav button.active {
+            background: rgba(0,245,160,0.15);
+            border-color: #00f5a0;
+            color: #00f5a0;
+        }
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            font-size: 20px;
+            color: #00f5a0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .card h3 {
+            font-size: 16px;
+            color: #00d9f5;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 20px 0 15px 0;
+        }
+        .workout-item {
+            padding: 20px;
+            background: rgba(0,245,160,0.02);
+            border: 1px solid rgba(0,245,160,0.15);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .workout-title {
+            font-size: 15px;
+            color: #e0e6ed;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .workout-details {
+            font-size: 13px;
+            color: #00f5a0;
+            margin-bottom: 10px;
+        }
+        .video-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(0,245,160,0.1);
+            border: 1px solid #00f5a0;
+            color: #00f5a0;
+            border-radius: 6px;
+            font-size: 11px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .btn {
+            padding: 18px;
+            background: linear-gradient(135deg, #00f5a0 0%, #00d9f5 100%);
+            border: none;
+            color: #0a0e27;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            width: 100%;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e0e6ed;
+            font-size: 13px;
+            font-family: inherit;
+            margin-bottom: 15px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FITNESS LAB 2026</h1>
+            <p style="font-size: 12px; color: #8892b0;">Week 1 of 4 · Your personalized training program</p>
+        </div>
+
+        <div class="nav">
+            <button class="active" onclick="showView('dashboard')">Dashboard</button>
+            <button onclick="showView('today')">Log Today</button>
+            <button onclick="showView('exercises')">Workouts</button>
+            <button onclick="showView('nutrition')">Nutrition</button>
+            <button onclick="showView('mobile')">Mobile Setup</button>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view">
+            <div class="card">
+                <h2>Welcome to Your Fitness Journey</h2>
+                <p style="font-size: 13px; color: #8892b0; line-height: 1.8;">
+                    This is your 4-week progressive strength program designed specifically for your goals:
+                    building upper body strength, core stability, and increasing energy.
+                </p>
+                <h3 style="margin-top: 30px;">Week 1 Goals</h3>
+                <p style="font-size: 13px; color: #e0e6ed; line-height: 1.8;">
+                    ✓ Complete 3-4 strength workouts<br/>
+                    ✓ Hit 90g protein daily<br/>
+                    ✓ Maintain 10k daily steps<br/>
+                    ✓ Sleep 7+ hours nightly<br/>
+                    ✓ Stay hydrated (2.5L+ water)
+                </p>
+            </div>
+
+            <div class="card">
+                <h2>Quick Start Guide</h2>
+                <p style="font-size: 13px; color: #8892b0; line-height: 1.8;">
+                    <strong style="color: #00f5a0;">1. Review Workouts:</strong> Go to "Workouts" tab to see your 3 weekly routines<br/><br/>
+                    <strong style="color: #00f5a0;">2. Plan Your Week:</strong> Pick 3-4 days for workouts (suggested: Mon/Wed/Fri)<br/><br/>
+                    <strong style="color: #00f5a0;">3. Log Daily:</strong> Use "Log Today" to track exercise, nutrition, and sleep<br/><br/>
+                    <strong style="color: #00f5a0;">4. Check Nutrition:</strong> See protein targets and vegetarian sources<br/><br/>
+                    <strong style="color: #00f5a0;">5. Mobile Access:</strong> Follow "Mobile Setup" to use on your phone
+                </p>
+            </div>
+        </div>
+
+        <!-- Today's Log View -->
+        <div id="today-view" class="view hidden">
+            <div class="card">
+                <h2>Log Today's Activity</h2>
+                <label style="display: block; font-size: 11px; color: #8892b0; margin-bottom: 10px; text-transform: uppercase;">
+                    Exercises Completed (comma separated)
+                </label>
+                <textarea id="exercises" rows="3" placeholder="e.g., Standard Push-ups, Plank Hold, Dumbbell Rows"></textarea>
+
+                <label style="display: block; font-size: 11px; color: #8892b0; margin-bottom: 10px; text-transform: uppercase;">
+                    Protein (grams) - Target: 90g
+                </label>
+                <input type="number" id="protein" placeholder="90">
+
+                <label style="display: block; font-size: 11px; color: #8892b0; margin-bottom: 10px; text-transform: uppercase;">
+                    Hydration (liters)
+                </label>
+                <input type="number" step="0.1" id="hydration" placeholder="2.5">
+
+                <label style="display: block; font-size: 11px; color: #8892b0; margin-bottom: 10px; text-transform: uppercase;">
+                    Sleep (hours)
+                </label>
+                <input type="number" step="0.5" id="sleep" placeholder="7">
+
+                <button class="btn" onclick="saveLog()">Save Today's Log</button>
+            </div>
+        </div>
+
+        <!-- Exercises View -->
+        <div id="exercises-view" class="view hidden">
+            <div class="card">
+                <h2>Week 1 Workout Programs</h2>
+                <p style="font-size: 12px; color: #8892b0;">Complete workout routines with sets, reps, rest times, and video links</p>
+            </div>
+
+            <div class="card">
+                <h3>Day 1: Full Body Strength A (15-18 min)</h3>
+                <div style="padding: 15px; background: rgba(0,217,245,0.05); border: 1px solid #00d9f5; border-radius: 8px; margin-bottom: 20px;">
+                    <strong style="color: #00d9f5;">Warmup (3 min):</strong> Arm circles 30s • Leg swings 30s • Light jumping jacks 60s • Shoulder rolls 30s
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">1. Standard Push-ups</div>
+                    <div class="workout-details">3 sets × 8-10 • Rest: 60s</div>
+                    <a href="https://www.youtube.com/watch?v=IODxDxX7oi4" target="_blank" class="video-link">▶ Form Video</a>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 12px; color: #8892b0;">
+                        Swap: Knee Push-ups (12-15) - If too hard
+                    </div>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">2. Plank Hold</div>
+                    <div class="workout-details">3 sets × 45-60s • Rest: 45s</div>
+                    <a href="https://www.youtube.com/watch?v=pSHjTRCQxIw" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">3. Dumbbell Rows (5kg)</div>
+                    <div class="workout-details">3 sets × 10-12 each arm • Rest: 60s</div>
+                    <a href="https://www.youtube.com/watch?v=roCP6wCXPqo" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">4. Dead Bug</div>
+                    <div class="workout-details">3 sets × 10 each side • Rest: 45s</div>
+                    <a href="https://www.youtube.com/watch?v=4XLEnwUr1d8" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div style="padding: 15px; background: rgba(189,16,224,0.05); border: 1px solid #bd10e0; border-radius: 8px;">
+                    <strong style="color: #bd10e0;">Cooldown (2 min):</strong> Child pose 30s • Cat-cow 30s • Seated forward fold 60s
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Day 2: Upper Body Focus (12-15 min)</h3>
+                <div style="padding: 15px; background: rgba(0,217,245,0.05); border: 1px solid #00d9f5; border-radius: 8px; margin-bottom: 20px;">
+                    <strong style="color: #00d9f5;">Warmup (2 min):</strong> Arm circles 30s • Wrist rolls 30s • Shoulder shrugs 30s • Neck rolls 30s
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">1. Overhead Press (5kg)</div>
+                    <div class="workout-details">3 sets × 8-10 • Rest: 60s</div>
+                    <a href="https://www.youtube.com/watch?v=2yjwXTZQDDI" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">2. Bicep Curls (5kg)</div>
+                    <div class="workout-details">3 sets × 12-15 • Rest: 45s</div>
+                    <a href="https://www.youtube.com/watch?v=ykJmrZ5v0Oo" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">3. Tricep Extensions (5kg)</div>
+                    <div class="workout-details">3 sets × 10-12 • Rest: 45s</div>
+                    <a href="https://www.youtube.com/watch?v=YbX7Wd8jQ-Q" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">4. Side Plank</div>
+                    <div class="workout-details">2 sets × 30s each side • Rest: 30s</div>
+                    <a href="https://www.youtube.com/watch?v=K2VljzCC16g" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Day 3: Full Body Strength B (15-18 min)</h3>
+                <div style="padding: 15px; background: rgba(0,217,245,0.05); border: 1px solid #00d9f5; border-radius: 8px; margin-bottom: 20px;">
+                    <strong style="color: #00d9f5;">Warmup (3 min):</strong> High knees 30s • Butt kicks 30s • Arm swings 30s • Torso twists 30s
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">1. Wide Push-ups</div>
+                    <div class="workout-details">3 sets × 8-10 • Rest: 60s</div>
+                    <a href="https://www.youtube.com/watch?v=wQhW-BNiXnw" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">2. Mountain Climbers</div>
+                    <div class="workout-details">3 sets × 20-30 total • Rest: 45s</div>
+                    <a href="https://www.youtube.com/watch?v=nmwgirgXLYM" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">3. Dumbbell Rows (5kg)</div>
+                    <div class="workout-details">3 sets × 10-12 each arm • Rest: 60s</div>
+                    <a href="https://www.youtube.com/watch?v=roCP6wCXPqo" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+
+                <div class="workout-item">
+                    <div class="workout-title">4. Russian Twists (3kg)</div>
+                    <div class="workout-details">3 sets × 20 total • Rest: 45s</div>
+                    <a href="https://www.youtube.com/watch?v=wkD8rjkodUI" target="_blank" class="video-link">▶ Form Video</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrition View -->
+        <div id="nutrition-view" class="view hidden">
+            <div class="card">
+                <h2>Protein Targets & Sources</h2>
+                <p style="font-size: 12px; color: #8892b0; margin-bottom: 20px;">
+                    Progressive protein intake for muscle building. Week 1 target: <strong style="color: #00f5a0;">90g/day</strong>
+                </p>
+
+                <h3>Vegetarian Protein Sources</h3>
+                <div style="font-size: 13px; line-height: 2; color: #8892b0;">
+                    <strong style="color: #e0e6ed;">Greek Yogurt:</strong> 10g per 100g (200g = 20g protein)<br/>
+                    <strong style="color: #e0e6ed;">Lentils (cooked):</strong> 9g per 100g (200g = 18g protein)<br/>
+                    <strong style="color: #e0e6ed;">Tofu (firm):</strong> 8g per 100g (150g = 12g protein)<br/>
+                    <strong style="color: #e0e6ed;">Tempeh:</strong> 19g per 100g (100g = 19g protein)<br/>
+                    <strong style="color: #e0e6ed;">Eggs:</strong> 13g per 100g (2 eggs = 13g protein)<br/>
+                    <strong style="color: #e0e6ed;">Protein Powder:</strong> 20-25g per scoop<br/>
+                    <strong style="color: #e0e6ed;">Chickpeas:</strong> 9g per 100g (200g = 18g protein)<br/>
+                    <strong style="color: #e0e6ed;">Peanut Butter:</strong> 2 tbsp = 8g protein
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: rgba(0,217,245,0.05); border: 1px solid #00d9f5; border-radius: 8px; font-size: 12px; line-height: 1.6;">
+                    💡 <strong style="color: #00d9f5;">Pro Tip:</strong> Example day reaching 90g: Protein yogurt (20g) + Lentil lunch (18g) + Tofu dinner (15g) + Snacks with nuts/eggs (20g) + Protein shake (20g)
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Setup View -->
+        <div id="mobile-view" class="view hidden">
+            <div class="card">
+                <h2>📱 How to Use on Mobile</h2>
+                <h3 style="margin-top: 0;">Step 1: Upload to Google Drive</h3>
+                <p style="font-size: 13px; color: #8892b0; line-height: 1.8; margin-bottom: 20px;">
+                    1. Go to <a href="https://drive.google.com" style="color: #00f5a0;">drive.google.com</a> on your computer<br/>
+                    2. Click "+ New" → "File upload"<br/>
+                    3. Upload this <strong>fitness-app-complete.html</strong> file<br/>
+                    4. Create a folder called "Fitness App 2026"
+                </p>
+
+                <h3>Step 2: Open on Your iPhone</h3>
+                <p style="font-size: 13px; color: #8892b0; line-height: 1.8; margin-bottom: 20px;">
+                    1. Open Google Drive app on your iPhone<br/>
+                    2. Find the <strong>fitness-app-complete.html</strong> file<br/>
+                    3. Tap it → Select "Open in" → Choose <strong>Safari</strong><br/>
+                    4. The app will load in Safari
+                </p>
+
+                <h3>Step 3: Add to Home Screen</h3>
+                <p style="font-size: 13px; color: #8892b0; line-height: 1.8; margin-bottom: 20px;">
+                    1. In Safari, tap the Share button (square with arrow)<br/>
+                    2. Scroll down and tap <strong>"Add to Home Screen"</strong><br/>
+                    3. Name it "Fitness Lab"<br/>
+                    4. Tap Add
+                </p>
+
+                <div style="padding: 20px; background: rgba(0,245,160,0.05); border: 1px solid #00f5a0; border-radius: 8px;">
+                    <strong style="color: #00f5a0; font-size: 14px;">✅ Done!</strong><br/>
+                    <p style="font-size: 13px; color: #8892b0; margin-top: 10px; line-height: 1.6;">
+                        You'll now have a "Fitness Lab" icon on your home screen that opens like a real app!
+                        Your workout logs will save automatically in your browser.
+                    </p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Alternative: Email Method</h3>
+                <p style="font-size: 13px; color: #8892b0; line-height: 1.8;">
+                    1. Email this file to yourself<br/>
+                    2. Open email on iPhone<br/>
+                    3. Download attachment → Open in Safari<br/>
+                    4. Add to home screen (same as above)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            // Show selected view
+            document.getElementById(viewName + '-view').classList.remove('hidden');
+            // Update nav
+            document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function saveLog() {
+            const data = {
+                date: new Date().toLocaleDateString(),
+                exercises: document.getElementById('exercises').value,
+                protein: document.getElementById('protein').value,
+                hydration: document.getElementById('hydration').value,
+                sleep: document.getElementById('sleep').value
+            };
+            
+            // Save to localStorage
+            const logs = JSON.parse(localStorage.getItem('fitnessLogs') || '[]');
+            logs.push(data);
+            localStorage.setItem('fitnessLogs', JSON.stringify(logs));
+            
+            alert('Day logged successfully! 🎯\n\nProtein: ' + data.protein + 'g\nSleep: ' + data.sleep + ' hours');
+            
+            // Clear form
+            document.getElementById('exercises').value = '';
+            document.getElementById('protein').value = '';
+            document.getElementById('hydration').value = '';
+            document.getElementById('sleep').value = '';
+        }
+    </script>
+</body>
+</html>
