@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITNESS LAB 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .week-indicator {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .goal-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .workout-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .workout-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .exercise {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #764ba2;
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .exercise-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .exercise-details {
+            color: #666;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        
+        .alternative-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        
+        .alternative-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .alternatives {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        
+        .alternatives.show {
+            display: block;
+        }
+        
+        .video-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-top: 5px;
+        }
+        
+        .log-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .nutrition-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nutrition-input input {
+            flex: 1;
+        }
+        
+        .sum-display {
+            background: #667eea;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .progress-overview {
+            display: grid;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .week-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .week-summary h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .day-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            margin: 5px 0;
+            border-radius: 8px;
+        }
+        
+        .day-row.completed {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border-top: 4px solid #667eea;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .timer-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .timer-display {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .timer-display.warning {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .exercise-name-timer {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .protein-sources {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .protein-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .protein-amount {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .warning-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .warmup-cooldown {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .goals-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-display {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏋️ FITNESS LAB 2026</h1>
+            <p class="week-indicator">Week <span id="currentWeek">1</span> of 4 • Your Progressive Training Program</p>
+        </header>
+        
+        <nav>
+            <button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" onclick="showTab('log')">Log Today</button>
+            <button class="tab-btn" onclick="showTab('progress')">Progress</button>
+            <button class="tab-btn" onclick="showTab('workouts')">Workouts</button>
+            <button class="tab-btn" onclick="showTab('timer')">Workout Timer</button>
+            <button class="tab-btn" onclick="showTab('nutrition')">Nutrition</button>
+        </nav>
+        
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h2>Welcome to Your Fitness Journey</h2>
+            <p>4-week progressive strength program for upper body strength, core stability, and increased energy</p>
+            
+            <div class="goals-grid">
+                <div class="goal-card">
+                    <strong>💪 Workouts</strong>
+                    <p>4 sessions/week</p>
+                </div>
+                <div class="goal-card">
+                    <strong>🥗 Protein</strong>
+                    <p><span id="proteinTarget">90</span>g daily</p>
+                </div>
+                <div class="goal-card">
+                    <strong>🚶 Steps</strong>
+                    <p>10,000 daily</p>
+                </div>
+                <div class="goal-card">
+                    <strong>😴 Sleep</strong>
+                    <p>7+ hours</p>
+                </div>
+                <div class="goal-card">
+                    <strong>💧 Water</strong>
+                    <p>2.5L+ daily</p>
+                </div>
+            </div>
+            
+            <div class="workout-card">
+                <h3>This Week's Focus</h3>
+                <p>Week <span id="weekFocus">1</span> emphasizes building your foundation with proper form and establishing consistency. Focus on completing all 4 workouts with good technique.</p>
+                <button class="btn-secondary" onclick="showTab('workouts')">View Workouts</button>
+                <button class="btn-secondary" onclick="showTab('timer')">Start Workout Timer</button>
+            </div>
+            
+            <div class="workout-card">
+                <h3>Quick Stats</h3>
+                <div class="stats-grid" id="quickStats">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Log Today Tab -->
+        <div id="log" class="tab-content">
+            <h2>Log Today's Activity</h2>
+            <p>Track your daily progress - <strong><span id="logDate"></span></strong></p>
+            
+            <div class="log-form">
+                <div class="form-group">
+                    <label>✅ Exercises Completed</label>
+                    <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">Check off the exercises you completed today</p>
+                    <div class="checkbox-group" id="exerciseCheckboxes">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>🥗 Protein Intake (grams) - Target: <span id="proteinTargetLog">90</span>g</label>
+                    <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">Add amounts throughout the day (e.g., 20+15+10)</p>
+                    <div class="nutrition-input">
+                        <input type="text" id="proteinInput" placeholder="e.g., 20+15+10+25">
+                        <div class="sum-display" id="proteinSum">0g</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>💧 Hydration (liters) - Target: 2.5L</label>
+                    <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">Add amounts throughout the day (e.g., 0.5+0.5+1)</p>
+                    <div class="nutrition-input">
+                        <input type="text" id="hydrationInput" placeholder="e.g., 0.5+0.5+1+0.5">
+                        <div class="sum-display" id="hydrationSum">0L</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>😴 Sleep (hours)</label>
+                    <input type="number" id="sleepInput" min="0" max="12" step="0.5" placeholder="7.5">
+                </div>
+                
+                <button class="btn-primary" onclick="saveLog()">Save Today's Log</button>
+                
+                <div id="logMessage"></div>
+            </div>
+        </div>
+        
+        <!-- Progress Tab -->
+        <div id="progress" class="tab-content">
+            <h2>Your Progress</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalWorkouts">0</div>
+                    <div class="stat-label">Workouts Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="currentStreak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="avgProtein">0g</div>
+                    <div class="stat-label">Avg Protein</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="weekCompletion">0%</div>
+                    <div class="stat-label">Week Completion</div>
+                </div>
+            </div>
+            
+            <div id="weeklyProgress">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Workouts Tab -->
+        <div id="workouts" class="tab-content">
+            <h2>Week <span id="workoutWeek">1</span> Workout Programs</h2>
+            <p style="margin-bottom: 20px;">Complete 4 workouts this week. Suggested: Monday, Wednesday, Friday, Sunday</p>
+            
+            <div id="workoutPrograms">
+                <!-- Populated by JavaScript -->
+            </div>
+            
+            <button class="btn-secondary" onclick="generateNextWeek()" style="width: 100%; margin-top: 20px;">Generate Next Week's Program</button>
+        </div>
+        
+        <!-- Workout Timer Tab -->
+        <div id="timer" class="tab-content">
+            <h2>Workout Timer</h2>
+            
+            <div class="timer-container">
+                <div class="form-group">
+                    <label>Select Workout</label>
+                    <select id="workoutSelect" style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                        <option value="">Choose a workout...</option>
+                    </select>
+                </div>
+                
+                <div id="timerWorkout" style="display: none;">
+                    <div class="exercise-name-timer" id="currentExerciseName"></div>
+                    <div class="timer-display" id="timerDisplay">00:00</div>
+                    <p id="timerStatus"></p>
+                    
+                    <div class="timer-controls">
+                        <button class="btn-secondary" onclick="startTimer()">Start</button>
+                        <button class="btn-secondary" onclick="pauseTimer()">Pause</button>
+                        <button class="btn-secondary" onclick="skipExercise()">Skip Exercise</button>
+                        <button class="btn-secondary" onclick="resetTimer()">Reset</button>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <p><strong>Completed:</strong> <span id="completedExercises">0</span> / <span id="totalExercises">0</span> exercises</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nutrition Tab -->
+        <div id="nutrition" class="tab-content">
+            <h2>Nutrition Guide</h2>
+            <p>Week <span id="nutritionWeek">1</span> Target: <strong><span id="nutritionTarget">90</span>g protein/day</strong></p>
+            
+            <div class="workout-card">
+                <h3>Vegetarian Protein Sources</h3>
+                <div class="protein-sources">
+                    <div class="protein-item">
+                        <span><strong>Greek Yogurt</strong> (200g serving)</span>
+                        <span class="protein-amount">20g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Lentils, cooked</strong> (200g serving)</span>
+                        <span class="protein-amount">18g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Chickpeas, cooked</strong> (200g serving)</span>
+                        <span class="protein-amount">18g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Tempeh</strong> (100g serving)</span>
+                        <span class="protein-amount">19g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Tofu, firm</strong> (150g serving)</span>
+                        <span class="protein-amount">15g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Eggs</strong> (2 large)</span>
+                        <span class="protein-amount">13g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Protein Powder</strong> (1 scoop)</span>
+                        <span class="protein-amount">20-25g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Almonds</strong> (30g / small handful)</span>
+                        <span class="protein-amount">6g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Walnuts</strong> (30g / small handful)</span>
+                        <span class="protein-amount">4.5g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Cashews</strong> (30g / small handful)</span>
+                        <span class="protein-amount">5g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Peanut Butter</strong> (2 tablespoons)</span>
+                        <span class="protein-amount">8g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Cottage Cheese</strong> (100g serving)</span>
+                        <span class="protein-amount">11g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Cheddar Cheese</strong> (30g slice)</span>
+                        <span class="protein-amount">7g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Mozzarella Cheese</strong> (30g serving)</span>
+                        <span class="protein-amount">6g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Quinoa, cooked</strong> (100g serving)</span>
+                        <span class="protein-amount">4g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Edamame</strong> (100g serving)</span>
+                        <span class="protein-amount">11g</span>
+                    </div>
+                    <div class="protein-item">
+                        <span><strong>Black Beans</strong> (200g cooked)</span>
+                        <span class="protein-amount">15g</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="workout-card">
+                <h3>Sample Daily Menu (90g protein)</h3>
+                <p><strong>Breakfast:</strong> Greek yogurt (200g) with nuts (30g almonds) = 26g</p>
+                <p><strong>Snack:</strong> Peanut butter (2 tbsp) on whole grain toast = 10g</p>
+                <p><strong>Lunch:</strong> Lentil curry (200g) with quinoa = 22g</p>
+                <p><strong>Snack:</strong> Cottage cheese (100g) with berries = 11g</p>
+                <p><strong>Dinner:</strong> Tofu stir-fry (150g) with edamame (100g) = 26g</p>
+                <p style="margin-top: 10px; color: #667eea; font-weight: 600;">Total: ~95g protein</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Data structure for workouts
+        const workoutPrograms = {
+            week1: [
+                {
+                    name: "Full Body Strength A",
+                    duration: "15-18 min",
+                    warmup: "Arm circles 30s • Leg swings 30s • Light jumping jacks 60s • Shoulder rolls 30s",
+                    exercises: [
+                        {
+                            name: "Standard Push-ups",
+                            sets: 3,
+                            reps: "8-10",
+                            rest: 60,
+                            video: "https://www.youtube.com/watch?v=IODxDxX7oi4",
+                            alternatives: [
+                                { name: "Knee Push-ups", reps: "12-15", note: "If too hard" },
+                                { name: "Incline Push-ups", reps: "10-12", note: "Using a chair or wall" }
+                            ]
+                        },
+                        {
+                            name: "Plank Hold",
+                            sets: 3,
+                            reps: "45-60s",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=pSHjTRCQxIw",
+                            alternatives: [
+                                { name: "Knee Plank", reps: "60-90s", note: "Modified version" },
+                                { name: "Side-to-side Plank", reps: "30s each side", note: "Dynamic variation" }
+                            ]
+                        },
+                        {
+                            name: "Dumbbell Rows (5kg)",
+                            sets: 3,
+                            reps: "10-12 each arm",
+                            rest: 60,
+                            video: "https://www.youtube.com/watch?v=roCP6wCXPqo",
+                            alternatives: [
+                                { name: "Bent-over Rows (both arms)", reps: "10-12", note: "Standing version" },
+                                { name: "Resistance Band Rows", reps: "12-15", note: "If no weights" }
+                            ]
+                        },
+                        {
+                            name: "Dead Bug",
+                            sets: 3,
+                            reps: "10 each side",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=4XLEnwUr1d8",
+                            alternatives: [
+                                { name: "Bird Dog", reps: "10 each side", note: "Stability variation" },
+                                { name: "Hollow Body Hold", reps: "30-45s", note: "Isometric core" }
+                            ]
+                        }
+                    ],
+                    cooldown: "Child pose 30s • Cat-cow 30s • Seated forward fold 60s"
+                },
+                {
+                    name: "Upper Body Focus",
+                    duration: "12-15 min",
+                    warmup: "Arm circles 30s • Wrist rolls 30s • Shoulder shrugs 30s • Neck rolls 30s",
+                    exercises: [
+                        {
+                            name: "Overhead Press (5kg)",
+                            sets: 3,
+                            reps: "8-10",
+                            rest: 60,
+                            video: "https://www.youtube.com/watch?v=2yjwXTZQDDI",
+                            alternatives: [
+                                { name: "Arnold Press", reps: "8-10", note: "Rotation variation" },
+                                { name: "Pike Push-ups", reps: "6-8", note: "Bodyweight alternative" }
+                            ]
+                        },
+                        {
+                            name: "Bicep Curls (5kg)",
+                            sets: 3,
+                            reps: "12-15",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=ykJmrZ5v0Oo",
+                            alternatives: [
+                                { name: "Hammer Curls", reps: "12-15", note: "Neutral grip" },
+                                { name: "Resistance Band Curls", reps: "15-20", note: "If no weights" }
+                            ]
+                        },
+                        {
+                            name: "Tricep Extensions (5kg)",
+                            sets: 3,
+                            reps: "10-12",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=YbX7Wd8jQ-Q",
+                            alternatives: [
+                                { name: "Overhead Tricep Extension", reps: "10-12", note: "Two-handed version" },
+                                { name: "Tricep Dips (chair)", reps: "8-12", note: "Bodyweight option" }
+                            ]
+                        },
+                        {
+                            name: "Side Plank",
+                            sets: 2,
+                            reps: "30s each side",
+                            rest: 30,
+                            video: "https://www.youtube.com/watch?v=K2VljzCC16g",
+                            alternatives: [
+                                { name: "Modified Side Plank (knee down)", reps: "45s each side", note: "Easier version" },
+                                { name: "Side Plank with Hip Dips", reps: "10 dips each side", note: "Dynamic version" }
+                            ]
+                        }
+                    ],
+                    cooldown: "Tricep stretch 30s each • Shoulder stretch 30s each • Chest stretch 30s"
+                },
+                {
+                    name: "Core & Stability",
+                    duration: "12-15 min",
+                    warmup: "High knees 30s • Butt kicks 30s • Arm swings 30s • Torso twists 30s",
+                    exercises: [
+                        {
+                            name: "Mountain Climbers",
+                            sets: 3,
+                            reps: "20-30 total",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=nmwgirgXLYM",
+                            alternatives: [
+                                { name: "Slow Mountain Climbers", reps: "15-20", note: "Controlled pace" },
+                                { name: "Plank Knee Tucks", reps: "15-20", note: "Slower variation" }
+                            ]
+                        },
+                        {
+                            name: "Russian Twists (3kg)",
+                            sets: 3,
+                            reps: "20 total",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=wkD8rjkodUI",
+                            alternatives: [
+                                { name: "Bicycle Crunches", reps: "20 total", note: "Bodyweight option" },
+                                { name: "Standing Wood Chops", reps: "15 each side", note: "Rotation exercise" }
+                            ]
+                        },
+                        {
+                            name: "Bird Dog",
+                            sets: 3,
+                            reps: "10 each side",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=wAjUjwf0MRg",
+                            alternatives: [
+                                { name: "Superman Hold", reps: "30-45s", note: "Back extension" },
+                                { name: "Quadruped Arm/Leg Raises", reps: "12 each side", note: "Easier version" }
+                            ]
+                        },
+                        {
+                            name: "Reverse Crunches",
+                            sets: 3,
+                            reps: "12-15",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=hyZlJu663jY",
+                            alternatives: [
+                                { name: "Leg Raises", reps: "10-12", note: "Extended legs" },
+                                { name: "Knee Raises", reps: "15-20", note: "Bent knee version" }
+                            ]
+                        }
+                    ],
+                    cooldown: "Child pose 30s • Cat-cow stretch 30s • Spinal twist 30s each side"
+                },
+                {
+                    name: "Full Body Strength B",
+                    duration: "15-18 min",
+                    warmup: "Jumping jacks 60s • Arm circles 30s • Leg swings 30s • Hip circles 30s",
+                    exercises: [
+                        {
+                            name: "Wide Push-ups",
+                            sets: 3,
+                            reps: "8-10",
+                            rest: 60,
+                            video: "https://www.youtube.com/watch?v=wQhW-BNiXnw",
+                            alternatives: [
+                                { name: "Diamond Push-ups", reps: "6-8", note: "Tricep focus" },
+                                { name: "Wide Knee Push-ups", reps: "12-15", note: "Modified version" }
+                            ]
+                        },
+                        {
+                            name: "Dumbbell Rows (5kg)",
+                            sets: 3,
+                            reps: "10-12 each arm",
+                            rest: 60,
+                            video: "https://www.youtube.com/watch?v=roCP6wCXPqo",
+                            alternatives: [
+                                { name: "Renegade Rows", reps: "8-10 each arm", note: "In plank position" },
+                                { name: "Inverted Rows", reps: "8-12", note: "Using table" }
+                            ]
+                        },
+                        {
+                            name: "Plank to Downward Dog",
+                            sets: 3,
+                            reps: "10-12",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=4XGmyiJ5nho",
+                            alternatives: [
+                                { name: "Inchworms", reps: "8-10", note: "Dynamic movement" },
+                                { name: "Plank Shoulder Taps", reps: "20 total", note: "Stability focus" }
+                            ]
+                        },
+                        {
+                            name: "Bicycle Crunches",
+                            sets: 3,
+                            reps: "20 total",
+                            rest: 45,
+                            video: "https://www.youtube.com/watch?v=Iwyvozckjak",
+                            alternatives: [
+                                { name: "Cross-body Crunches", reps: "15 each side", note: "Slower tempo" },
+                                { name: "Russian Twists", reps: "20 total", note: "Seated rotation" }
+                            ]
+                        }
+                    ],
+                    cooldown: "Downward dog 30s • Child pose 30s • Cobra stretch 30s • Spinal twist 30s each"
+                }
+            ]
+        };
+        
+        // Local storage keys
+        const LOGS_KEY = 'fitness_logs';
+        const CURRENT_WEEK_KEY = 'current_week';
+        
+        // Initialize
+        let currentWeek = parseInt(localStorage.getItem(CURRENT_WEEK_KEY)) || 1;
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let currentExerciseIndex = 0;
+        let selectedWorkout = null;
+        let isResting = false;
+        
+        // Update week indicators
+        function updateWeekIndicators() {
+            document.querySelectorAll('#currentWeek, #weekFocus, #workoutWeek, #nutritionWeek').forEach(el => {
+                el.textContent = currentWeek;
+            });
+            
+            const proteinTarget = 85 + (currentWeek * 5); // 90, 95, 100, 105
+            document.querySelectorAll('#proteinTarget, #proteinTargetLog, #nutritionTarget').forEach(el => {
+                el.textContent = proteinTarget;
+            });
+        }
+        
+        // Tab navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'log') {
+                setupLogPage();
+            } else if (tabName === 'progress') {
+                displayProgress();
+            } else if (tabName === 'workouts') {
+                displayWorkouts();
+            } else if (tabName === 'timer') {
+                setupTimer();
+            } else if (tabName === 'dashboard') {
+                updateQuickStats();
+            }
+        }
+        
+        // Setup log page
+        function setupLogPage() {
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('logDate').textContent = today;
+            
+            // Populate exercise checkboxes
+            const checkboxContainer = document.getElementById('exerciseCheckboxes');
+            checkboxContainer.innerHTML = '';
+            
+            workoutPrograms.week1.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    const div = document.createElement('div');
+                    div.className = 'checkbox-item';
+                    div.innerHTML = `
+                        <input type="checkbox" id="ex_${exercise.name.replace(/\s+/g, '_')}" value="${exercise.name}">
+                        <label for="ex_${exercise.name.replace(/\s+/g, '_')}">${exercise.name} (${exercise.sets} × ${exercise.reps})</label>
+                    `;
+                    checkboxContainer.appendChild(div);
+                });
+            });
+            
+            // Setup live calculation
+            document.getElementById('proteinInput').addEventListener('input', calculateSum);
+            document.getElementById('hydrationInput').addEventListener('input', calculateSum);
+        }
+        
+        // Calculate sum from input
+        function calculateSum() {
+            const proteinInput = document.getElementById('proteinInput').value;
+            const hydrationInput = document.getElementById('hydrationInput').value;
+            
+            const proteinSum = eval(proteinInput || '0');
+            const hydrationSum = eval(hydrationInput || '0');
+            
+            document.getElementById('proteinSum').textContent = proteinSum + 'g';
+            document.getElementById('hydrationSum').textContent = hydrationSum.toFixed(1) + 'L';
+        }
+        
+        // Save log
+        function saveLog() {
+            const date = new Date().toISOString().split('T')[0];
+            
+            // Get selected exercises
+            const exercises = [];
+            document.querySelectorAll('#exerciseCheckboxes input[type="checkbox"]:checked').forEach(cb => {
+                exercises.push(cb.value);
+            });
+            
+            const protein = eval(document.getElementById('proteinInput').value || '0');
+            const hydration = eval(document.getElementById('hydrationInput').value || '0');
+            const sleep = parseFloat(document.getElementById('sleepInput').value) || 0;
+            
+            // Get existing logs
+            const logs = JSON.parse(localStorage.getItem(LOGS_KEY) || '{}');
+            
+            // Save new log
+            logs[date] = {
+                exercises,
+                protein,
+                hydration,
+                sleep,
+                week: currentWeek
+            };
+            
+            localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
+            
+            // Show success message
+            const messageDiv = document.getElementById('logMessage');
+            messageDiv.innerHTML = '<div class="success-message">✅ Today\'s log saved successfully!</div>';
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 3000);
+            
+            // Update quick stats
+            updateQuickStats();
+        }
+        
+        // Display progress
+        function displayProgress() {
+            const logs = JSON.parse(localStorage.getItem(LOGS_KEY) || '{}');
+            const dates = Object.keys(logs).sort().reverse();
+            
+            // Calculate stats
+            let totalWorkouts = 0;
+            let totalProtein = 0;
+            let logCount = 0;
+            
+            dates.forEach(date => {
+                if (logs[date].exercises && logs[date].exercises.length > 0) {
+                    totalWorkouts++;
+                }
+                if (logs[date].protein) {
+                    totalProtein += logs[date].protein;
+                    logCount++;
+                }
+            });
+            
+            // Update stats cards
+            document.getElementById('totalWorkouts').textContent = totalWorkouts;
+            document.getElementById('avgProtein').textContent = logCount > 0 ? Math.round(totalProtein / logCount) + 'g' : '0g';
+            
+            // Calculate streak
+            let streak = 0;
+            const today = new Date();
+            for (let i = 0; i < 30; i++) {
+                const checkDate = new Date(today);
+                checkDate.setDate(today.getDate() - i);
+                const dateStr = checkDate.toISOString().split('T')[0];
+                
+                if (logs[dateStr] && logs[dateStr].exercises && logs[dateStr].exercises.length > 0) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            document.getElementById('currentStreak').textContent = streak;
+            
+            // Week completion
+            const thisWeekStart = new Date();
+            thisWeekStart.setDate(thisWeekStart.getDate() - thisWeekStart.getDay());
+            let thisWeekWorkouts = 0;
+            
+            for (let i = 0; i < 7; i++) {
+                const checkDate = new Date(thisWeekStart);
+                checkDate.setDate(thisWeekStart.getDate() + i);
+                const dateStr = checkDate.toISOString().split('T')[0];
+                
+                if (logs[dateStr] && logs[dateStr].exercises && logs[dateStr].exercises.length > 0) {
+                    thisWeekWorkouts++;
+                }
+            }
+            
+            document.getElementById('weekCompletion').textContent = Math.round((thisWeekWorkouts / 4) * 100) + '%';
+            
+            // Display weekly summaries
+            displayWeeklySummaries(logs);
+        }
+        
+        // Display weekly summaries
+        function displayWeeklySummaries(logs) {
+            const container = document.getElementById('weeklyProgress');
+            container.innerHTML = '<h3>Weekly Progress</h3>';
+            
+            // Get last 4 weeks
+            const today = new Date();
+            for (let week = 0; week < 4; week++) {
+                const weekStart = new Date(today);
+                weekStart.setDate(today.getDate() - (week * 7) - today.getDay());
+                
+                const weekDiv = document.createElement('div');
+                weekDiv.className = 'week-summary';
+                
+                const weekTitle = document.createElement('h3');
+                weekTitle.textContent = `Week ${currentWeek - week} (${weekStart.toLocaleDateString()})`;
+                weekDiv.appendChild(weekTitle);
+                
+                // Days of the week
+                for (let day = 0; day < 7; day++) {
+                    const dayDate = new Date(weekStart);
+                    dayDate.setDate(weekStart.getDate() + day);
+                    const dateStr = dayDate.toISOString().split('T')[0];
+                    
+                    const dayRow = document.createElement('div');
+                    dayRow.className = 'day-row';
+                    
+                    const dayLog = logs[dateStr];
+                    if (dayLog && dayLog.exercises && dayLog.exercises.length > 0) {
+                        dayRow.classList.add('completed');
+                        dayRow.innerHTML = `
+                            <span>✅ ${dayDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                            <span>${dayLog.exercises.length} exercises • ${dayLog.protein || 0}g protein</span>
+                        `;
+                    } else {
+                        dayRow.innerHTML = `
+                            <span>${dayDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                            <span style="color: #999;">No workout logged</span>
+                        `;
+                    }
+                    
+                    weekDiv.appendChild(dayRow);
+                }
+                
+                container.appendChild(weekDiv);
+            }
+        }
+        
+        // Display workouts
+        function displayWorkouts() {
+            const container = document.getElementById('workoutPrograms');
+            container.innerHTML = '';
+            
+            workoutPrograms.week1.forEach((workout, index) => {
+                const workoutDiv = document.createElement('div');
+                workoutDiv.className = 'workout-card';
+                
+                let html = `
+                    <h3>Day ${index + 1}: ${workout.name} (${workout.duration})</h3>
+                    
+                    <div class="warmup-cooldown">
+                        <strong>🔥 Warmup (3 min):</strong> ${workout.warmup}
+                    </div>
+                `;
+                
+                workout.exercises.forEach((exercise, exIndex) => {
+                    html += `
+                        <div class="exercise">
+                            <div class="exercise-header">
+                                <span class="exercise-name">${exIndex + 1}. ${exercise.name}</span>
+                            </div>
+                            <div class="exercise-details">
+                                ${exercise.sets} sets × ${exercise.reps} • Rest: ${exercise.rest}s
+                            </div>
+                            <a href="${exercise.video}" target="_blank" class="video-link">▶ Form Video</a>
+                            <button class="alternative-btn" onclick="toggleAlternatives(this, ${index}, ${exIndex})">
+                                Show Alternatives
+                            </button>
+                            <div class="alternatives" id="alt_${index}_${exIndex}">
+                                ${exercise.alternatives.map(alt => `
+                                    <div style="margin: 5px 0;">
+                                        <strong>${alt.name}</strong> (${alt.reps}) - ${alt.note}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    <div class="warmup-cooldown">
+                        <strong>❄️ Cooldown (2 min):</strong> ${workout.cooldown}
+                    </div>
+                `;
+                
+                workoutDiv.innerHTML = html;
+                container.appendChild(workoutDiv);
+            });
+        }
+        
+        // Toggle alternatives
+        function toggleAlternatives(button, workoutIndex, exerciseIndex) {
+            const altDiv = document.getElementById(`alt_${workoutIndex}_${exerciseIndex}`);
+            altDiv.classList.toggle('show');
+            button.textContent = altDiv.classList.contains('show') ? 'Hide Alternatives' : 'Show Alternatives';
+        }
+        
+        // Setup timer
+        function setupTimer() {
+            const select = document.getElementById('workoutSelect');
+            select.innerHTML = '<option value="">Choose a workout...</option>';
+            
+            workoutPrograms.week1.forEach((workout, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `Day ${index + 1}: ${workout.name}`;
+                select.appendChild(option);
+            });
+            
+            select.onchange = function() {
+                if (this.value !== '') {
+                    selectedWorkout = workoutPrograms.week1[parseInt(this.value)];
+                    currentExerciseIndex = 0;
+                    document.getElementById('timerWorkout').style.display = 'block';
+                    document.getElementById('totalExercises').textContent = selectedWorkout.exercises.length;
+                    document.getElementById('completedExercises').textContent = '0';
+                    resetTimer();
+                    updateTimerDisplay();
+                } else {
+                    document.getElementById('timerWorkout').style.display = 'none';
+                }
+            };
+        }
+        
+        // Timer functions
+        function updateTimerDisplay() {
+            if (!selectedWorkout) return;
+            
+            const exercise = selectedWorkout.exercises[currentExerciseIndex];
+            document.getElementById('currentExerciseName').textContent = 
+                isResting ? `Rest - Next: ${exercise.name}` : exercise.name;
+            
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            const display = document.getElementById('timerDisplay');
+            display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (isResting && timerSeconds <= 10 && timerSeconds > 0) {
+                display.classList.add('warning');
+                document.getElementById('timerStatus').textContent = `⚠️ Get ready! ${timerSeconds} seconds to next exercise`;
+            } else {
+                display.classList.remove('warning');
+                document.getElementById('timerStatus').textContent = isResting ? 
+                    `Resting... ${exercise.sets} sets × ${exercise.reps}` : 
+                    `Performing: ${exercise.sets} sets × ${exercise.reps}`;
+            }
+        }
+        
+        function startTimer() {
+            if (!timerInterval && selectedWorkout) {
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 0;
+            isResting = false;
+            updateTimerDisplay();
+        }
+        
+        function skipExercise() {
+            if (!selectedWorkout) return;
+            
+            if (!isResting) {
+                // Start rest period
+                isResting = true;
+                timerSeconds = selectedWorkout.exercises[currentExerciseIndex].rest;
+                
+                // Update completed count
+                const completed = parseInt(document.getElementById('completedExercises').textContent);
+                document.getElementById('completedExercises').textContent = completed + 1;
+                
+                updateTimerDisplay();
+            } else {
+                // Move to next exercise
+                currentExerciseIndex++;
+                
+                if (currentExerciseIndex >= selectedWorkout.exercises.length) {
+                    pauseTimer();
+                    alert('🎉 Workout Complete! Great job!');
+                    resetTimer();
+                    currentExerciseIndex = 0;
+                    document.getElementById('completedExercises').textContent = '0';
+                } else {
+                    isResting = false;
+                    timerSeconds = 0;
+                    updateTimerDisplay();
+                }
+            }
+        }
+        
+        // Generate next week
+        function generateNextWeek() {
+            if (currentWeek >= 4) {
+                alert('You\'ve completed all 4 weeks! Consider repeating the program with heavier weights or more reps.');
+                return;
+            }
+            
+            currentWeek++;
+            localStorage.setItem(CURRENT_WEEK_KEY, currentWeek);
+            updateWeekIndicators();
+            
+            const message = document.createElement('div');
+            message.className = 'success-message';
+            message.textContent = `✅ Week ${currentWeek} program ready! Protein target increased to ${85 + (currentWeek * 5)}g/day. Keep pushing!`;
+            document.getElementById('workoutPrograms').insertBefore(message, document.getElementById('workoutPrograms').firstChild);
+            
+            setTimeout(() => message.remove(), 5000);
+        }
+        
+        // Update quick stats on dashboard
+        function updateQuickStats() {
+            const logs = JSON.parse(localStorage.getItem(LOGS_KEY) || '{}');
+            const thisWeek = getThisWeekLogs(logs);
+            
+            const statsDiv = document.getElementById('quickStats');
+            statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${thisWeek.workouts}</div>
+                    <div class="stat-label">This Week's Workouts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${thisWeek.avgProtein}g</div>
+                    <div class="stat-label">Avg Protein This Week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${thisWeek.avgHydration}L</div>
+                    <div class="stat-label">Avg Hydration This Week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${thisWeek.avgSleep}h</div>
+                    <div class="stat-label">Avg Sleep This Week</div>
+                </div>
+            `;
+        }
+        
+        function getThisWeekLogs(logs) {
+            const today = new Date();
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay());
+            
+            let workouts = 0;
+            let totalProtein = 0;
+            let totalHydration = 0;
+            let totalSleep = 0;
+            let count = 0;
+            
+            for (let i = 0; i < 7; i++) {
+                const checkDate = new Date(weekStart);
+                checkDate.setDate(weekStart.getDate() + i);
+                const dateStr = checkDate.toISOString().split('T')[0];
+                
+                if (logs[dateStr]) {
+                    if (logs[dateStr].exercises && logs[dateStr].exercises.length > 0) {
+                        workouts++;
+                    }
+                    totalProtein += logs[dateStr].protein || 0;
+                    totalHydration += logs[dateStr].hydration || 0;
+                    totalSleep += logs[dateStr].sleep || 0;
+                    count++;
+                }
+            }
+            
+            return {
+                workouts,
+                avgProtein: count > 0 ? Math.round(totalProtein / count) : 0,
+                avgHydration: count > 0 ? (totalHydration / count).toFixed(1) : 0,
+                avgSleep: count > 0 ? (totalSleep / count).toFixed(1) : 0
+            };
+        }
+        
+        // Initialize app
+        updateWeekIndicators();
+        updateQuickStats();
+    </script>
+</body>
+</html>
